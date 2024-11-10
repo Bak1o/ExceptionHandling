@@ -1,28 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using static ExceptionHandling.Program;
 
 namespace ExceptionHandling
 {
-    internal class Product
+    public class Product
     {
-        private int id;
+      
 
-        public int Id { get => id; set => id = value; }
+        public int Id { get; set; }
         public decimal Price { get; set; }
         public string Name { get; set; }
         public string Manufacturer { get; set; }
         public int Rating { get; set; }
 
-        public Product()
-        {
-            
-        }
+        
         public Product(int id, decimal price, string name, string manufacturer, int rating)
         {
+            Validate(id, price, name, manufacturer, rating);
             Id = id;
             Price = price;
             Name = name;
@@ -30,28 +29,18 @@ namespace ExceptionHandling
             Rating = rating;
         }
 
-        public bool Validate()
+        public void Validate (int idValue, decimal priceValue, string nameValue, string manufacturerValue, int ratingValue) 
         {
-            try
-            {
-                Ensure.IsPositive(Id);
-                Ensure.IsPositive(Price);
-
-            }
-            catch (FormatException e)
-            {
-                Console.WriteLine(e.Message);
-            }
-            catch (OverflowException e)
-            {
-                Console.WriteLine(e.Message);
-
-            }
-            catch (Exception)
-            {
-                Console.WriteLine(" The Id and Price value must be positive number ");
-            }
             
+            
+                Ensure.IsPositive(idValue);
+                Ensure.IsNonNegative(priceValue);
+            Ensure.IsNotNullOrEmpty(nameValue);
+            Ensure.IsNotNullOrWhiteSpace(manufacturerValue);
+            Ensure.IsInRange(ratingValue, 0, 5);
+
+
+
         }
     }
 }

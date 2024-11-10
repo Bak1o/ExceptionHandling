@@ -2,41 +2,32 @@
 using System.Globalization;
 using System.Linq.Expressions;
 using System.Net.NetworkInformation;
-using System.Numerics;
 namespace ExceptionHandling
 {
-    internal class Program
+    internal partial class Program
     {
-        public static class Ensure
+        public static void Main(string[] args)
         {
-            public static void Main(string[] args)
+            try
             {
-               var product = new Product();
-                product.Price = -100;
-                product.Validate();
+               var productService = new ProductService();
+                var product = productService.GetProduct();
+                
+                
+            }
+            catch (FormatException )
+            {
+                Console.WriteLine("Formatexception");
+            }
+            catch (OverflowException )
+            {
+                Console.WriteLine(" overflow exception");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
 
-            }
-            public static bool IsPositive<T>(T number)
-                  where T : INumberBase<T>
-            { if(T.IsPositive(number))
-                return true;
-                throw new Exception();
-            }
-            public static bool IsNegative<T>(T number)
-                 where T : INumberBase<T>
-            {
-                return T.IsNegative(number);
-            }
-            public static bool IsNonPositive<T>(T number)
-                where T : INumberBase<T>
-            {
-                return T.IsNegative(number);
-            }
-            public static bool IsNonNegative<T>(T number)
-              where T : INumberBase<T>
-            {
-                return T.IsPositive(number);
-            }
         }
         
     }
